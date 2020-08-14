@@ -329,6 +329,9 @@ public class Calculadora extends javax.swing.JFrame {
         
         for (int i = mathrev.length() -1; i >= 0; i--) {
             String car2 = String.valueOf(mathrev.charAt(i));
+            if(car2.equals("\n")){
+                car2 = String.valueOf(mathrev.charAt(i));
+            }
             mathcomplete += car2;
         }
         
