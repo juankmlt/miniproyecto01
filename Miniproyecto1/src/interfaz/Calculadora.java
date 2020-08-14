@@ -24,6 +24,7 @@ public class Calculadora extends javax.swing.JFrame {
     public boolean variable;
     public boolean number;
     public String mathcomplete = "";
+    private char lastCharacter = ' ';
     public Calculadora() {
         initComponents();
         textolog.setLineWrap(true);
@@ -260,6 +261,30 @@ public class Calculadora extends javax.swing.JFrame {
             evt.consume();
             JOptionPane.showMessageDialog(this, "No se pueden agregar espacios");
         }
+        
+        if (!Character.isAlphabetic(validar) && !Character.isDigit(validar)) {
+            switch (validar) {
+                case '+':
+                case '-':
+                case '*':
+                case '/':
+                case '.':
+                case '^':
+                case '(':
+                case ')':
+                    if (!Character.isAlphabetic(lastCharacter) && !Character.isDigit(lastCharacter)) {
+                        evt.consume();
+                    }
+                    break;
+                default:
+                    evt.consume();
+                    break;
+            }
+
+        }
+
+        lastCharacter = evt.getKeyChar();
+        System.out.println("Last " + lastCharacter);
         
     }//GEN-LAST:event_textologKeyTyped
 
