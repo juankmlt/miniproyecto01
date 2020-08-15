@@ -23,6 +23,8 @@ public class Calculadora extends javax.swing.JFrame {
     public String operator;
     public boolean variable;
     public boolean number;
+    public int num[] = new int[1000];
+    public String sym[] = new String[1000];
     public String mathcomplete = "";
     private char lastCharacter = ' ';
     public Calculadora() {
@@ -262,29 +264,29 @@ public class Calculadora extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No se pueden agregar espacios");
         }
         
-        if (!Character.isAlphabetic(validar) && !Character.isDigit(validar)) {
-            switch (validar) {
-                case '+':
-                case '-':
-                case '*':
-                case '/':
-                case '.':
-                case '^':
-                case '(':
-                case ')':
-                    if (!Character.isAlphabetic(lastCharacter) && !Character.isDigit(lastCharacter)) {
-                        evt.consume();
-                    }
-                    break;
-                default:
-                    evt.consume();
-                    break;
-            }
-
-        }
-
-        lastCharacter = evt.getKeyChar();
-        System.out.println("Last " + lastCharacter);
+//        if (!Character.isAlphabetic(validar) && !Character.isDigit(validar)) {
+////            switch (validar) {
+////                case '+':
+////                case '-':
+////                case '*':
+////                case '/':
+////                case '.':
+////                case '^':
+////                case '(':
+////                case ')':
+////                    if (!Character.isAlphabetic(lastCharacter) && !Character.isDigit(lastCharacter)) {
+////                        evt.consume();
+////                    }
+////                    break;
+////                default:
+////                    evt.consume();
+////                    break;
+////            }
+//
+//        }
+//
+//        lastCharacter = evt.getKeyChar();
+//        System.out.println("Last " + lastCharacter);
         
     }//GEN-LAST:event_textologKeyTyped
 
@@ -360,24 +362,32 @@ public class Calculadora extends javax.swing.JFrame {
             mathcomplete += car2;
         }
         
-        if(Character.isLetter(mathcomplete.charAt(0))){
+        try{
+            if(Character.isLetter(mathcomplete.charAt(0))){
             variable = true;
             number = false;
         }else{
             variable = false;
             number = true;
         }
+            
+        }catch(Exception e){
+            textolog.setText("0");
+        }
+        
+        
         
     }
     
     public void mathprocess(){
         String acomulator = "";
-        int num[] = new int[1000];
-        String sym[] = new String[1000];
+        int waiter = 0;
         int result = 0;
         int iterator = 0;
         int ext = 0;
         String captureScreen ="";
+        
+        
 
         for (int i = 0; i < mathcomplete.length(); i++) {
             if(Character.isDigit(mathcomplete.charAt(i))){
@@ -393,6 +403,7 @@ public class Calculadora extends javax.swing.JFrame {
             acomulator = "";
         }
         ext = 0;
+        
         for (int i = 0; i < mathcomplete.length(); i++) {
             if (!Character.isDigit(mathcomplete.charAt(i))){
                 acomulator += String.valueOf(mathcomplete.charAt(i));
@@ -401,59 +412,136 @@ public class Calculadora extends javax.swing.JFrame {
                 acomulator ="";
             }
         }
+        
         int total = 0;
         for (int i = 0; i < sym.length; i++) {
             if(sym[i]!= null){
                 total++;
             }
         }
+        ext = 0;
         
-        for (int i = 0; i < total+1; i++) {
+        
+            if(sym[0].equals("*")){
+                System.out.println("entra al if multiplicacion");
+                try {
+                    for (int i = 0; i < total+1; i++) {
+                        System.out.println("entra al for del multiplicacion");
+                        System.out.println("\n\n");
+                        if (sym[ext].equals("*")){
+                            if (ext == 0){
+                                System.out.println("------if multipli -------------");
+                                System.out.println("i entra con valor de "+i);
+                                System.out.println(num[i]+" * "+num[i+1]);
+                                waiter = num[i] * num[i+1];
+                                i = i+1;
+                                System.out.println("resultado = "+ waiter);
+                                System.out.println("iterador -> "+ iterator);
+                                System.out.println("\n\n");
+                            }else{
+                                System.out.println("------else multipli -------------");
+                                System.out.println("i entra con valor de "+i);
+                                System.out.println(waiter+" * "+num[i]);
+                                waiter = waiter * num[i];
+                                //iterator++;
+                                System.out.println("resultado = "+ waiter);
+                                System.out.println("iterador -> "+ iterator);
+                                System.out.println("\n\n");
+                            } 
+                            ext++;
+                            System.out.println("ext sube a -> " + ext);
+                        }
+                }
+                } catch (Exception e) {
+                    System.out.println("error ext -> " + ext);
+                }
+                
+                
+                    
+                }else{
+                    for (int i = 0; i < total; i++) {
+                        if(sym[i].equals("*")){
+                            num[i] = num[i] * num[i+1];
+                            num[i+1] = 0;
+                            System.out.println("            prioridad -> "+num[i]);
+                        }                       
+                    }
+                }
             
-            if(sym[i]!= null){
-                if(sym[i].equals("+")){
-                    result += num[i];
+         
+            
+            
+        
+        
+        if (sym[0] == null){
+
+            captureScreen = String.valueOf(num[0]);
+            result = num[0];
+        }else{
+            try{
+                System.out.println("total -> " + total);
+                for (int i = 0; i < total+1; i = i++) {
+                if(sym[ext].equals("+")){
+                    if (ext == 0){
+                        System.out.println("waiter para suma -> "+waiter);
+                        System.out.println("i para suma if -> " + i);
+                        System.out.println(num[i]+"+"+num[i+1]);
+                        waiter = num[i]+ num[i+1];
+                        System.out.println("="+waiter);
+                        System.out.println("ext ->" + ext + " suma");
+                        i = i + 2;
+                        System.out.println("i cambia a "+ i);
+                        System.out.println("\n\n\n");
+                    }else{
+                        System.out.println("waiter para suma else -> "+waiter);
+                        System.out.println("i para suma else -> " + i);
+                        System.out.println(waiter+"+"+num[i+iterator]);
+                        waiter = waiter + num[i+iterator];                        
+                        System.out.println("="+waiter);
+                        System.out.println("ext ->" + ext + " suma");
+                        iterator++;
+                        System.out.println("\n\n\n");
+                    } 
+                    
+                }
+                if(sym[ext].equals("-")){
+                    if(ext == 0){
+                        System.out.println("waiter para resta -> "+waiter);
+                        System.out.println("i para resta if -> " + i);
+                        System.out.println(num[i]+"-"+num[i+1]);
+                        waiter = num[i] - num[i+1];
+                        System.out.println("="+waiter);
+                        System.out.println("ext ->" + ext + " resta");
+                         i = i + 2;
+                        System.out.println("i cambia a "+ i);
+                        System.out.println("\n\n\n");
+                        
+                    }else{
+                        System.out.println("waiter para resta else -> "+waiter);
+                        System.out.println("i para resta else -> " + i);
+                        System.out.println(waiter+"-"+num[i+iterator]);
+                        waiter = waiter - num[i+iterator];
+                        System.out.println("="+waiter);
+                        System.out.println("ext ->" + ext + " resta");
+                        iterator++;
+                        System.out.println("\n\n\n");
+                        
+                    }
                 }
                 
-                if(sym[i].equals("-")){
-                    result = result + num[i];
-                }
-                
-                if(sym[i].equals("*")){
-                    result *= num[i];
-                }
-                
-                if(sym[i].equals("/")){
-                    result /= num[i];
-                }
-                
-                if(sym[i].equals("^")){
-                    result ^= num[i];
-                }
-            }else{
-                if(sym[i-1].equals("+")){
-                    result += num[i];
-                }
-                
-                if(sym[i-1].equals("-")){
-                    System.out.println("result2 - num: " + result + " - " + num[i]);
-                    result = result - num[i];
-                    System.out.println("resultado2 ->"+result);
-                }
-                
-                if(sym[i-1].equals("*")){
-                    result *= num[i];
-                }
-                
-                if(sym[i-1].equals("/")){
-                    result /= num[i];
-                }
-                
-                if(sym[i-1].equals("^")){
-                    result ^= num[i];
-                }
-            }
+                 ext++;
         }
+    }catch(Exception e){
+        System.out.println("error ext-> "+ ext);
+    }
+            
+            
+            result = waiter;
+            ext = 0;
+        }
+        
+        
+        
         
         captureScreen = textolog.getText().toString();
         textolog.setText(captureScreen+ " = " + result);
