@@ -262,29 +262,29 @@ public class Calculadora extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "No se pueden agregar espacios");
         }
         
-        if (!Character.isAlphabetic(validar) && !Character.isDigit(validar)) {
-            switch (validar) {
-                case '+':
-                case '-':
-                case '*':
-                case '/':
-                case '.':
-                case '^':
-                case '(':
-                case ')':
-                    if (!Character.isAlphabetic(lastCharacter) && !Character.isDigit(lastCharacter)) {
-                        evt.consume();
-                    }
-                    break;
-                default:
-                    evt.consume();
-                    break;
-            }
-
-        }
-
-        lastCharacter = evt.getKeyChar();
-        System.out.println("Last " + lastCharacter);
+//        if (!Character.isAlphabetic(validar) && !Character.isDigit(validar)) {
+////            switch (validar) {
+////                case '+':
+////                case '-':
+////                case '*':
+////                case '/':
+////                case '.':
+////                case '^':
+////                case '(':
+////                case ')':
+////                    if (!Character.isAlphabetic(lastCharacter) && !Character.isDigit(lastCharacter)) {
+////                        evt.consume();
+////                    }
+////                    break;
+////                default:
+////                    evt.consume();
+////                    break;
+////            }
+//
+//        }
+//
+//        lastCharacter = evt.getKeyChar();
+//        System.out.println("Last " + lastCharacter);
         
     }//GEN-LAST:event_textologKeyTyped
 
@@ -374,6 +374,7 @@ public class Calculadora extends javax.swing.JFrame {
         String acomulator = "";
         int num[] = new int[1000];
         String sym[] = new String[1000];
+        int waiter = 3;
         int result = 0;
         int iterator = 0;
         int ext = 0;
@@ -416,7 +417,9 @@ public class Calculadora extends javax.swing.JFrame {
                 }
                 
                 if(sym[i].equals("-")){
-                    result = result + num[i];
+                    result = num[i] - num[i+1] - num[waiter];
+                    waiter++;
+                    
                 }
                 
                 if(sym[i].equals("*")){
